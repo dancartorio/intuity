@@ -1,503 +1,472 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Nova tag title com o título da aba -->
-<title>Desmembramento</title>
-<!-- Adição do ícone na aba -->
-<link rel="icon" href="https://ugc.production.linktr.ee/Ypr6OR8YTgOlainGrS5t_42d3cf346bb0fb80bdf04ffb402d397f3">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desmembramento</title>
+    <link type="image/png" sizes="16x16" rel="icon" href="https://img.icons8.com/ios-filled/50/EBEBEB/split-horizontal.png">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
 
-<style>
-body.dark-mode {
-  background-color: #333;
-  color: #fff;
-  font-family: "Courier New", monospace; /* Fonte monoespaçada */
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden; /* Esconde a barra de rolagem principal do corpo */
-}
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+        }
 
-body.light-mode {
-  background-color: #6c2ffc;
-  color: #ffffff;
-  font-family: "Courier New", monospace; /* Fonte monoespaçada */
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden; /* Esconde a barra de rolagem principal do corpo */
-}
+        h1, h2 {
+            color: #bb86fc;
+        }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 2px solid #888; /* Adiciona a linha cinza */
-  border-radius: 10px; /* Bordas arredondadas */
-  padding: 20px; /* Espaçamento interno */
-  max-width: 1000px; /* Largura máxima do conteúdo */
-  width: 90%; /* Largura do conteúdo */
-  overflow-y: auto; /* Habilita a barra de rolagem vertical quando necessário */
-}
+        label {
+            display: block;
+            margin-top: 10px;
+        }
 
-.tooltip {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
+        input[type="date"], input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333333;
+            color: #ffffff;
+            position: relative;
+        }
 
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 140px;
-  background-color: #555; /* Cor dark da caixa de dica */
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -75px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
+        input[type="checkbox"] {
+            margin-left: 10px;
+        }
 
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
+        button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #bb86fc;
+            border: none;
+            border-radius: 4px;
+            color: #000000;
+            cursor: pointer;
+        }
 
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
+        button:hover {
+            background-color: #9a5ffb;
+        }
 
-button {
-  background-color: #555;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
+        .copyable {
+            cursor: pointer;
+        }
 
-.logo {
-  width: 20px;
-  height: 20px;
-  margin-left: 5px;
-}
+        .tooltip {
+            visibility: hidden;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
 
-h1 {
-  margin-bottom: 20px;
-  position: relative;
-  animation: moveTitle 4s linear infinite;
-}
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
 
-input[type="text"],
-input[type="date"] {
-  width: 200px;
-  padding: 5px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background-color: #222;
-  color: #fff;
-}
+        .show-tooltip .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
 
-/* Nova classe para a versão no lado esquerdo da página */
-.version {
-  font-size: 12px;
-  position: absolute;
-  bottom: 10px; /* cima: top; baixo: bottom*/
-  left: 10px; /* direita: right; esquerda: left*/
-}
+        .divider {
+            border-bottom: 1px solid #ffffff;
+            margin: 20px 0;
+        }
 
-/* Animação do título */
-@keyframes moveTitle {
-  0% { left: 0; }
-  50% { left: 20px; }
-  100% { left: 0; }
-}
+        .title-with-icon {
+            display: flex;
+            align-items: center;
+        }
+        .title-with-icon img {
+            margin-right: 10px; /* Ajuste a margem conforme necessário */
+        }
 
-/* Definindo a animação */
-@keyframes changeColor {
-  0% { color: red; } /* Início da animação, cor vermelha */
-  25% { color: blue; } /* 25% do tempo da animação, cor azul */
-  50% { color: green; } /* 50% do tempo da animação, cor verde */
-  75% { color: orange; } /* 75% do tempo da animação, cor laranja */
-  100% { color: red; } /* Fim da animação, voltando para cor vermelha */
-}
+        /* Novo estilo para o botão do pop-up */
+        .popup-button {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* Deixa o botão circular */
+        background-color: #555;
+        border: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
 
-/* Aplicando a animação ao título */
-.color-changing-title {
-  animation: changeColor 5s linear infinite; /* Nome da animação, duração (5 segundos), modo linear e repetição infinita */
-}
+        .popup-button img {
+        width: 24px; /* Ajusta o tamanho da logo */
+        height: 24px;
+        }
 
+        /* Novo estilo para o pop-up */
+        .popup {
+        position: fixed;
+        bottom: 70px;
+        right: 10px;
+        background-color: #bb86fc; /* Fundo amarelo claro */
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: none; /* O pop-up começa escondido */
+        z-index: 999; /* Garante que o pop-up fique acima de outros elementos */
+        color: black; /* Cor do texto preto */
+        }
 
-/* Botão para alternar tema */
-.theme-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  width: 40px; /* Tamanho padrão da largura do botão */
-  height: 40px; /* Tamanho padrão da altura do botão */
-}
+        .popup-content {
+        font-family: monospace; /* Fonte monoespaçada para manter a formatação */
+        }
 
+        /* Quando o mouse passar por cima do botão do pop-up, exibe o pop-up */
+        .popup-button:hover + .popup {
+        display: block;
+        }
 
-/* Estilize a imagem dentro do botão para ocupar todo o espaço */
-.theme-button img {
-  width: 100%;
-  height: 100%;
-}
+      /* Estilos para o índice lateral */
+      .toc {
+            position: fixed;
+            top: 30%;
+            left: 20px; /* Mover para o lado esquerdo */
+            transform: translateY(-50%);
+            background-color: #121212; /* Cor de fundo dark */
+            border: 1px solid #bb86fc; /* Cor da borda dark */
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000; /* Garante que o índice esteja acima de outros elementos */
+        }
 
-/* Novo estilo para o botão do pop-up */
-.popup-button {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%; /* Deixa o botão circular */
-  background-color: #555;
-  border: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+        .toc h3 {
+            color: #bb86fc; /* Cor do texto light */
+        }
 
-.popup-button img {
-  width: 24px; /* Ajusta o tamanho da logo */
-  height: 24px;
-}
+        .toc ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-/* Novo estilo para o pop-up */
-.popup {
-  position: fixed;
-  bottom: 70px;
-  right: 10px;
-  background-color: #ffffcc; /* Fundo amarelo claro */
-  padding: 10px;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  display: none; /* O pop-up começa escondido */
-  z-index: 999; /* Garante que o pop-up fique acima de outros elementos */
-  color: black; /* Cor do texto preto */
-}
+        .toc li {
+            margin-bottom: 5px;
+        }
 
-.popup-content {
-  font-family: monospace; /* Fonte monoespaçada para manter a formatação */
-}
+        .toc a {
+            text-decoration: none;
+            color: #ddd; /* Cor do texto light */
+        }
 
-/* Quando o mouse passar por cima do botão do pop-up, exibe o pop-up */
-.popup-button:hover + .popup {
-  display: block;
-}
-
-/* Estiliza a barra de rolagem em navegadores baseados em WebKit (Chrome, Safari, etc.) */
-::-webkit-scrollbar {
-  width: 10px; /* Largura da barra de rolagem */
-}
-
-::-webkit-scrollbar-track {
-  background-color: #333; /* Cor do fundo da barra de rolagem */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #888; /* Cor da alça (barra) da rolagem */
-}
-
-</style>
+        .toc a:hover {
+            color: #fff; /* Cor do texto hover light */
+        }
+    </style>
 </head>
-<body class="dark-mode">
+<body>
+    <div class="container">
+        <div class="title-with-icon">
+            <img src="https://img.icons8.com/ios-glyphs/30/EBEBEB/building--v1.png" alt="Ícone de Edifício">
+            <h1 id="main-title">Desmembramento</h1>
+        </div>
 
-  <button class="theme-button" onclick="toggleTheme()">
-    <img src="https://static.thenounproject.com/png/1664849-200.png" alt="Toggle Theme">
-  </button>
+          <!-- Novo botão para exibir o pop-up -->
+        <button class="popup-button" onclick="togglePopup()">
+            <img src="https://img.icons8.com/ios-filled/50/bb86fc/details-popup.png" alt="Menu">
+        </button>
 
-  <!-- Novo botão para exibir o pop-up -->
-<button class="popup-button" onclick="togglePopup()">
-  <img src="https://cdn-icons-png.flaticon.com/512/1287/1287020.png" alt="Menu">
-</button>
+            <!-- Índice lateral -->
+            <div class="toc" id="toc">
+                <h3>Table of Contents</h3>
+                <ul>
+                    <li><a href="#main-title">Requerimento</a></li>
+                    <li><a href="#certidao">Certidão Narrativa</a></li>
+                    <li><a href="#certidaodes">Certidão de Desmembramento</a></li>
+                    <li><a href="#habite">Habite-se</a></li>
+                    <li><a href="#planta">Planta</a></li>
+                    <li><a href="#memorial">Memorial Descritivo</a></li>
+                    <li><a href="#cadastro">Ficha de Cadastro</a></li>
+                </ul>
+            </div>
 
-<h1 class="color-changing-title">🔧Desmembramento COM EDIFICAÇÃO</h1>
+        <form>
+            <label for="dataRequerimento">Data do Requerimento:</label>
+            <div class="tooltip-container">
+                <input type="date" id="dataRequerimento" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
 
-<!-- Nova classe para a versão no lado esquerdo da página -->
-<div class="version">2º R.I - Version 1.0.0 - 20/07/2023</div>
+            
+            <label for="mat">Matrícula:</label>
+            <div class="tooltip-container">
+                <input type="text" id="mat" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
 
-<div class="container">
-  <div class="space"></div> <!-- Espaço --> <span>📜Data do Requerimento</span> <!-- Título -->  
-  <div class="tooltip">
-  <input type="text" value="Data do Requerimento" id="inputDataRequerimento">
-  <button onclick="copyToClipboard('inputDataRequerimento', 'myTooltip1')" style="background: transparent; border: none;">
-  <img class="logo" src="
-  https://i.imgur.com/zHgKDpN.png"
-  alt="Copy Clipboard Logo">
-  </button>
-  <span class="tooltiptext" id="myTooltip1">Copied: Data do Requerimento</span>
-  </div>
+            <label for="lote">Loteamento:</label>
+            <div class="tooltip-container">
+                <input type="text" value="Loteamento " id="lote" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
 
-  <style>
-    .tooltip {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px; /* Adiciona espaço vertical entre os títulos */
-    }
-  
-    .box {
-      display: flex;
-      align-items: center;
-      margin-right: 10px;
-    }
-  
-    .box input {
-      margin-right: 10px;
-    }
-  
-    .tooltip img {
-      width: 20px;
-    }
-  
-    .tooltip button {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
-  
-    .tooltip .tooltiptext {
-      display: none;
-    }
-  
-    .tooltip:hover .tooltiptext {
-      display: block;
-    }
-  </style>
-  
-  <div class="tooltip">
-    <span style="margin-bottom: 10px;">🏡Habite-se Retificado?</span>
-    <form>
-    <label for="maioridade"></label>
-    <select name="maioridade" id="maioridade">
-    <option value="sim">Sim</option>
-    <option value="nao">Não</option>
-    </select>
-    </form>
-    <div class="box"> 
-    <input type="text" value="Número do Habite-se" id="inputHabiteSeCodigo">
-    <button onclick="copyToClipboard('inputHabiteSeCodigo', 'myTooltip6')">
-    <img class="logo" src="
-    https://i.imgur.com/zHgKDpN.png"
-    alt="Copy Clipboard Logo">
-    </button>
+            <label for="nome">Nome do Indicador</label>
+            <div class="tooltip-container">
+                <input type="text" value="imóvel residencial unifamiliar nº " id="nome" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="rega">Registro anterior:</label>
+            <div class="tooltip-container">
+                <input type="text" value="R- " id="rega" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="regad">Data do Registro anterior:</label>
+            <div class="tooltip-container">
+                <input type="date" id="regad" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="aved">AV anterior (da Edificação):</label>
+            <div class="tooltip-container">
+                <input type="text" value="AV- " id="aved" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="avedd">Data do AV anterior (da Edificação):</label>
+            <div class="tooltip-container">
+                <input type="date" id="avedd" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <h2 id="certidao">Certidão Narrativa</h2>
+            <label for="dataCertidao">Data:</label>
+            <div class="tooltip-container">
+                <input type="date" id="dataCertidao" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="codigoCertidao">Código:</label>
+            <div class="tooltip-container">
+                <input type="text" id="codigoCertidao" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <h2 id="certidaodes">Certidão de Desmembramento</h2>
+            <label for="dataCertidaodes">Data:</label>
+            <div class="tooltip-container">
+                <input type="date" id="dataCertidaodes" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="codigoCertidaodes">Código:</label>
+            <div class="tooltip-container">
+                <input type="text" id="codigoCertidaodes" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <h2 id="habite">Habite-se</h2>
+            <label for="retificado">Retificado?</label>
+            <input type="checkbox" id="retificado">
+
+            <label for="dataHabite">Data:</label>
+            <div class="tooltip-container">
+                <input type="date" id="dataHabite" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="codigoHabite">Código:</label>
+            <div class="tooltip-container">
+                <input type="text" id="codigoHabite" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="respHabite">Responsável Técnico:</label>
+            <div class="tooltip-container">
+                <input type="text" id="respHabite" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="rnpHabite">RNP (ou equivalente):</label>
+            <div class="tooltip-container">
+                <input type="text" id="rnpHabite" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <h2 id="planta">Planta</h2>
+            <label for="planta">Data:</label>
+            <div class="tooltip-container">
+                <input type="date" id="planta" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <h2 id="memorial">Memorial Descritivo</h2>
+            <label for="memorial">Data:</label>
+            <div class="tooltip-container">
+                <input type="date" id="memorial" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <h2 id="cadastro">Ficha de Cadastro</h2>
+            <div id="fichas">
+                <div class="ficha">
+                    <label for="dataFicha1">Data da Ficha:</label>
+                    <div class="tooltip-container">
+                        <input type="date" id="dataFicha1" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <label for="areaTerreno1">Área do Terreno:</label>
+                    <div class="tooltip-container">
+                        <input type="text" id="areaTerreno1" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    
+                    <label for="areaConstruida1">Área Construída:</label>
+                    <div class="tooltip-container">
+                        <input type="text" id="areaConstruida1" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <button type="button" id="addFicha">Adicionar Ficha</button>
+        </form>
     </div>
-    <div class="box">
-    <input type="text" value="Data" id="inputHabiteSeCodigo2">
-    <button onclick="copyToClipboard('inputHabiteSeCodigo2', 'myTooltip6')">
-    <img class="logo" src="
-    https://i.imgur.com/zHgKDpN.png"
-    alt="Copy Clipboard Logo">
-    </button>
+
+    <!-- Novo pop-up -->
+    <div class="popup" id="myPopup">
+        <div class="popup-content">
+        📌Ordem dos Documentos
+        <ol>
+          <li>TIRAR O CONFER E BOTAR NO LIXINHO;</li>
+          <li>MATRÍCULAS DIGITADAS;</li>
+          <li>MATRÍCULA – SE NÃO FOR NOSSA;</li>
+          <li>REQUERIMENTO;</li>
+          <li>HABITE-SE;</li>
+          <li>NARRATIVA;</li>
+          <li>CERTIDÃO DE DESMEMBRAMENTO;</li>
+          <li>PLANTA;</li>
+          <li>MEMORIAL DESCRITIVO;</li>
+          <li>ARTS;</li>
+          <li>FICHAS DE CADASTRO;</li>
+          <li>DOCUMENTOS DAS PARTES;</li>
+          <li>CUSTAS;</li>
+          <li>INDISPONIBILIDADES;</li>
+          <li>DOCUMENTOS QUE IREMOS DEVOLVER.</li>
+        </ol>
+        </div>
     </div>
-    <span class="tooltiptext" id="myTooltip6">Copied: Habite-se - Código</span>
-    </div>
 
-  <div class="tooltip">
-    <span>🕛Certidão Narrativa </span>
-    <input type="text" value="Data" id="inputCertNarrativaCodigo">
-    <button onclick="copyToClipboard('inputCertNarrativaCodigo', 'myTooltip2')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip2">Copied: Certidão Narrativa - Código</span>
-  </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addFichaButton = document.getElementById('addFicha');
+            const fichasContainer = document.getElementById('fichas');
+            let fichaCount = 1;
 
-  <div class="tooltip">
-    <span>🔑Certidão Narrativa </span>
-    <input type="text" value="Código" id="inputCertNarrativaData">
-    <button onclick="copyToClipboard('inputCertNarrativaData', 'myTooltip3')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip3">Copied: Certidão Narrativa - Data</span>
-  </div>
+            addFichaButton.addEventListener('click', () => {
+                fichaCount++;
+                const newFicha = document.createElement('div');
+                newFicha.classList.add('ficha');
+                newFicha.innerHTML = `
+                    <label for="dataFicha${fichaCount}">Data da Ficha:</label>
+                    <div class="tooltip-container">
+                        <input type="date" id="dataFicha${fichaCount}" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <label for="areaTerreno${fichaCount}">Área do Terreno:</label>
+                    <div class="tooltip-container">
+                        <input type="text" id="areaTerreno${fichaCount}" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <label for="areaConstruida${fichaCount}">Área Construída:</label>
+                    <div class="tooltip-container">
+                        <input type="text" id="areaConstruida${fichaCount}" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <div class="divider"></div>
+                `;
+                fichasContainer.appendChild(newFicha);
+                addCopyFunctionality(newFicha.querySelectorAll('input'));
+            });
 
-  <div class="tooltip">
-    <span>🕛Certidão Desmembramento </span>
-    <input type="text" value="Data" id="inputCertDesmembramentoCodigo">
-    <button onclick="copyToClipboard('inputCertDesmembramentoCodigo', 'myTooltip4')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip4">Copied: Certidão Desmembramento - Código</span>
-  </div>
+            function formatDateString(dateString) {
+                const [year, month, day] = dateString.split('-');
+                const monthNames = [
+                    'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+                    'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+                ];
+                return `${day} de ${monthNames[parseInt(month) - 1]} de ${year}`;
+            }
 
-  <div class="tooltip">
-    <span>🔑Certidão Desmembramento </span>
-    <input type="text" value="Código" id="inputCertDesmembramentoData">
-    <button onclick="copyToClipboard('inputCertDesmembramentoData', 'myTooltip5')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip5">Copied: Certidão Desmembramento - Data</span>
-  </div>
+            function showTooltip(input) {
+                const tooltip = input.nextElementSibling;
+                tooltip.classList.add('show-tooltip');
+                setTimeout(() => {
+                    tooltip.classList.remove('show-tooltip');
+                }, 2000);
+            }
 
-  <div class="tooltip">
-    <span>✒️Novo Responsável Técnico</span>
-    <input type="text" value="Nome Completo" id="inputResponsavelTecnico">
-    <button onclick="copyToClipboard('inputResponsavelTecnico', 'myTooltip8')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip8">Copied: Responsável Técnico e RNP</span>
-  </div>
+            function addCopyFunctionality(inputs) {
+                inputs.forEach(input => {
+                    input.addEventListener('click', () => {
+                        if (input.type === 'date') {
+                            const formattedDate = formatDateString(input.value);
+                            navigator.clipboard.writeText(formattedDate)
+                                .then(() => {
+                                    showTooltip(input);
+                                });
+                        } else {
+                            input.select();
+                            document.execCommand('copy');
+                            showTooltip(input);
+                        }
+                    });
+                });
+            }
 
-  <div class="tooltip">
-    <span>✒️RNP </span>
-    <input type="text" value="Número do RNP no Habite-se" id="inputRNP">
-    <button onclick="copyToClipboard('inputRNP', 'myTooltip8')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip8">Copied: Responsável Técnico e RNP</span>
-  </div>
+            document.querySelectorAll('.copyable').forEach(input => {
+                addCopyFunctionality([input]);
+            });
+        });
 
-  <div class="tooltip">
-    <span>Nome do Loteamento </span>
-    <input type="text" value="Loteamento para Desmembramento" id="inputNomeLoteamento">
-    <button onclick="copyToClipboard('inputNomeLoteamento', 'myTooltip15')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip15">Copied: Nome do Loteamento</span>
-  </div>
+        // Função para exibir/esconder o pop-up
+        function togglePopup() {
+        var popup = document.getElementById("myPopup");
+        popup.style.display = popup.style.display === "block" ? "none" : "block";
+        }
 
-  <div class="tooltip">
-    <span>📐Planta</span>
-    <input type="text" value="Data de aprovação" id="inputPlantaData">
-    <button onclick="copyToClipboard('inputPlantaData', 'myTooltip9')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip9">Copied: Planta - Data</span>
-  </div>
-
-  <div class="tooltip">
-    <span>🕛Memorial Descritivo</span>
-    <input type="text" value="Data do Memorial Descritivo" id="inputMemorialDescritivoData">
-    <button onclick="copyToClipboard('inputMemorialDescritivoData', 'myTooltip10')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip10">Copied: Memorial Descritivo - Data</span>
-  </div>
-
-  <div class="tooltip">
-    <span>🕛Ficha de Cadastro</span>
-    <input type="text" value="Data da Ficha de Cadastro" id="inputFichaCadastroData">
-    <button onclick="copyToClipboard('inputFichaCadastroData', 'myTooltip11')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip11">Copied: Ficha de Cadastro - Data</span>
-  </div>
-
-  <div class="tooltip">
-    <span>Registro anterior e Data </span>
-    <input type="text" value="Registro anterior e Data" id="inputRegistroAnteriorData">
-    <button onclick="copyToClipboard('inputRegistroAnteriorData', 'myTooltip12')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip12">Copied: Registro anterior e Data</span>
-  </div>
-
-  <div class="tooltip">
-    <span>AV- de comunicação de Habite-se </span>
-    <input type="text" value="AV- de comunicação de Habite-se" id="inputAVComunicacaoHabiteSe">
-    <button onclick="copyToClipboard('inputAVComunicacaoHabiteSe', 'myTooltip13')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip13">Copied: AV- de comunicação de Habite-se</span>
-  </div>
-
-  <div class="tooltip">
-    <span>imóvel residencial unifamiliar nº </span>
-    <input type="text" value="imóvel residencial unifamiliar nº" id="inputImovelResidencialUnifamiliar">
-    <button onclick="copyToClipboard('inputImovelResidencialUnifamiliar', 'myTooltip14')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip14">Copied: Imóvel residencial unifamiliar nº</span>
-  </div>
-
-  <div class="tooltip">
-    <span>Registro Anterior </span>
-    <input type="text" value="Matrícula" id="inputMatricula">
-    <button onclick="copyToClipboard('inputMatricula', 'myTooltip16')"style="background: transparent; border: none;">
-      <img class="logo" src="https://i.imgur.com/zHgKDpN.png" alt="Copy Clipboard Logo">
-    </button>
-    <span class="tooltiptext" id="myTooltip16">Copied: Matrícula</span>
-  </div>
-</div>
-
-<!-- Novo pop-up -->
-<div class="popup" id="myPopup">
-  <div class="popup-content">
-    📌Ordem dos Documentos
-    <ol>
-      <li>TIRAR O CONFER E BOTAR NO LIXINHO;</li>
-      <li>MATRÍCULAS DIGITADAS;</li>
-      <li>MATRÍCULA – SE NÃO FOR NOSSA;</li>
-      <li>REQUERIMENTO;</li>
-      <li>HABITE-SE;</li>
-      <li>NARRATIVA;</li>
-      <li>CERTIDÃO DE DESMEMBRAMENTO;</li>
-      <li>PLANTA;</li>
-      <li>MEMORIAL DESCRITIVO;</li>
-      <li>ARTS;</li>
-      <li>FICHAS DE CADASTRO;</li>
-      <li>DOCUMENTOS DAS PARTES;</li>
-      <li>CUSTAS;</li>
-      <li>INDISPONIBILIDADES;</li>
-      <li>DOCUMENTOS QUE IREMOS DEVOLVER.</li>
-    </ol>
-  </div>
-</div>
-
-
-<script>
-function copyToClipboard(inputId, tooltipId) {
-  var copyText = document.getElementById(inputId);
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  
-  var tooltip = document.getElementById(tooltipId);
-  tooltip.innerHTML = "Copied!";
-  setTimeout(function() {
-    tooltip.innerHTML = "Copy to clipboard";
-  }, 1500);
-}
-
-function toggleTheme() {
-  var body = document.querySelector('body');
-  body.classList.toggle('dark-mode');
-  body.classList.toggle('light-mode');
-}
-
-// Função para exibir/esconder o pop-up
-function togglePopup() {
-  var popup = document.getElementById("myPopup");
-  popup.style.display = popup.style.display === "block" ? "none" : "block";
-}
-
-
-</script>
+                // Função para mostrar/ocultar o índice
+                function toggleIndex() {
+            var toc = document.getElementById('toc');
+            toc.classList.toggle('show');
+        }
+    </script>
 </body>
 </html>
