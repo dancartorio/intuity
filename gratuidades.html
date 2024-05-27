@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gratuidades</title>
+    <link type="image/png" sizes="16x16" rel="icon" href="https://img.icons8.com/ios-filled/50/EBEBEB/pin--v1.png">
+    <style>
+          body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+        }
+
+        h1, h2 {
+            color: #bb86fc;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 8px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333333;
+            color: #ffffff;
+            width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="date"], input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333333;
+            color: #ffffff;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tooltip-container {
+            position: relative;
+            display: block;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .show-tooltip .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .title-with-icon {
+            display: flex;
+            align-items: center;
+        }
+        .title-with-icon img {
+            margin-right: 10px; /* Ajuste a margem conforme necessário */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><img width="30" height="30" src="https://img.icons8.com/ios-filled/50/EBEBEB/pin--v1.png" alt="Ícone" class="search-icon"> Gratuidades
+            <div class="search-box">
+                <input type="text" placeholder="Pesquisar..." class="search-input" id="searchInput" oninput="search()">
+            </div>
+        </h1>
+        
+        <div class="tooltip-container">
+            <span>ATUALIZAÇÃO DA INSC. MUNICIPAL </span>
+            <input type="text" value="Art. 1177, §1°, VII do NCN" id="input01" class="copyable" onclick="copyToClipboard('input01', 'myTooltip1')">
+            <span class="tooltip" id="myTooltip1">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>LOGRADOURO </span>
+            <input type="text" value="Art. 1177, §1°, VII do NCN" id="input02" class="copyable" onclick="copyToClipboard('input02', 'myTooltip2')">
+            <span class="tooltip" id="myTooltip2">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>RETIFICAÇÃO DA DENOMINAÇÃO DO LOTEAMENTO </span>
+            <input type="text" value="Art. 3º, inciso IV, Lei 10.169" id="input03" class="copyable" onclick="copyToClipboard('input03', 'myTooltip3')">
+            <span class="tooltip" id="myTooltip3">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>COMUNICAÇÃO DA CONCRETIZAÇÃO DA INCORPORAÇÃO IMOBILIÁRIA</span>
+            <input type="text" value="Art. 237-A, da Lei nº 6.015/73" id="input16" class="copyable" onclick="copyToClipboard('input16', 'myTooltip16')">
+            <span class="tooltip" id="myTooltip16">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>CAR GRATUITO </span>
+            <input type="text" value="INCRA - Prov. 06/2017" id="input04" class="copyable" onclick="copyToClipboard('input04', 'myTooltip4')">
+            <span class="tooltip" id="myTooltip4">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>CÉDULA DE CRÉDITO IMOBILIÁRIO (CCI) </span>
+            <input type="text" value="§6º do artigo 18, da Lei Federal 10.931/2004" id="input05" class="copyable" onclick="copyToClipboard('input05', 'myTooltip5')">
+            <span class="tooltip" id="myTooltip5">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>AFETAÇÃO DO SISTEMA DE CONSÓRCIO </span>
+            <input type="text" value="Art. 168 CN" id="input06" class="copyable" onclick="copyToClipboard('input06', 'myTooltip6')">
+            <span class="tooltip" id="myTooltip6">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>PENDÊNCIA DE REGULARIZAÇÃO </span>
+            <input type="text" value="§3º, do Art. 932-A, do CN" id="input07" class="copyable" onclick="copyToClipboard('input07', 'myTooltip7')">
+            <span class="tooltip" id="myTooltip7">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>INDISPONIBILIDADE</span>
+            <input type="text" value="Caput, do Art. 170, do CN c/c Art. 1.759 do NCN" id="input08" class="copyable" onclick="copyToClipboard('input08', 'myTooltip8')">
+            <span class="tooltip" id="myTooltip8">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>PENHORA </span>
+            <input type="text" value="caput e §6°, Art. 1.267" id="input09" class="copyable" onclick="copyToClipboard('input09', 'myTooltip9')">
+            <span class="tooltip" id="myTooltip9">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>TODAS AS GRATUIDADES DERIVADAS DE ORDEM JUDICIAL COM "JUSTIÇA GRATUITA"</span>
+            <input type="text" value="Inc. IX, do §1º, do art. 98, do CPC" id="input10" class="copyable" onclick="copyToClipboard('input10', 'myTooltip10')">
+            <span class="tooltip" id="myTooltip10">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>EX OFFICIO</span>
+            <input type="text" value="ex officio" id="input11" class="copyable" onclick="copyToClipboard('input11', 'myTooltip11')">
+            <span class="tooltip" id="myTooltip11">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span><strong>CANCELAMENTO</strong> DE CÉDULA DE CRÉDITO IMOBILIÁRIO (CCI)</span>
+            <input type="text" value="Art. 164 do CN c/c Art. 1.759 do NCN" id="input12" class="copyable" onclick="copyToClipboard('input12', 'myTooltip12')">
+            <span class="tooltip" id="myTooltip12">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>DADOS DO PROPRIETÁRIO</span>
+            <input type="text" value="Inciso IV, do art. 3º da Lei 10.169/2000 (Lei de Emolumentos)" id="input13" class="copyable" onclick="copyToClipboard('input13', 'myTooltip13')">
+            <span class="tooltip" id="myTooltip13">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>USUCAPIÃO</span>
+            <input type="text" value="GRATUIDADE PODER JUDICIÁRIO; TIPO DE DESCONTO: ISENÇÃO PODER JUDICIÁRIO" id="input14" class="copyable" onclick="copyToClipboard('input14', 'myTooltip14')">
+            <span class="tooltip" id="myTooltip14">Copiado</span>
+        </div>
+
+        <div class="tooltip-container">
+            <span>RETIFICAÇÃO POR ERRO NA TRANSPOSIÇÃO</span>
+            <input type="text" value="Lei Federal 6.015/1973 (art. 213, inciso I)" id="input15" class="copyable" onclick="copyToClipboard('input15', 'myTooltip15')">
+            <span class="tooltip" id="myTooltip15">Copiado</span>
+        </div>
+
+        <script>
+function copyToClipboard(elementId, tooltipId) {
+                var copyText = document.getElementById(elementId);
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+                document.execCommand("copy");
+
+                var tooltip = document.getElementById(tooltipId);
+                tooltip.classList.add("show-tooltip");
+                setTimeout(function() {
+                    tooltip.classList.remove("show-tooltip");
+                }, 1000);
+            }
+
+            function search() {
+                var input, filter, container, divs, span, i, txtValue;
+                input = document.getElementById('searchInput');
+                filter = input.value.toUpperCase();
+                container = document.getElementsByClassName('container')[0];
+                divs = container.getElementsByTagName('div');
+
+                for (i = 0; i < divs.length; i++) {
+                    span = divs[i].getElementsByTagName("span")[0];
+                    if (span) {
+                        txtValue = span.textContent || span.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            divs[i].style.display = "";
+                        } else {
+                            divs[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

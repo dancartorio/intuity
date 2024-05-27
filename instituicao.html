@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituição de Condomínio</title>
+    <link type="image/png" sizes="16x16" rel="icon" href="https://img.icons8.com/ios-glyphs/30/EBEBEB/building--v1.png">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+        }
+
+        h1, h2 {
+            color: #bb86fc;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="date"], input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333333;
+            color: #ffffff;
+            position: relative;
+        }
+
+        input[type="checkbox"] {
+            margin-left: 10px;
+        }
+
+        button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #bb86fc;
+            border: none;
+            border-radius: 4px;
+            color: #000000;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #9a5ffb;
+        }
+
+        .copyable {
+            cursor: pointer;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .show-tooltip .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .divider {
+            border-bottom: 1px solid #ffffff;
+            margin: 20px 0;
+        }
+
+        .title-with-icon {
+            display: flex;
+            align-items: center;
+        }
+        .title-with-icon img {
+            margin-right: 10px; /* Ajuste a margem conforme necessário */
+        }
+
+        /* Novo estilo para o botão do pop-up */
+        .popup-button {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* Deixa o botão circular */
+        background-color: #555;
+        border: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .popup-button img {
+        width: 24px; /* Ajusta o tamanho da logo */
+        height: 24px;
+        }
+
+        /* Novo estilo para o pop-up */
+        .popup {
+        position: fixed;
+        bottom: 70px;
+        right: 10px;
+        background-color: #bb86fc; /* Fundo amarelo claro */
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: none; /* O pop-up começa escondido */
+        z-index: 999; /* Garante que o pop-up fique acima de outros elementos */
+        color: black; /* Cor do texto preto */
+        }
+
+        .popup-content {
+        font-family: monospace; /* Fonte monoespaçada para manter a formatação */
+        }
+
+        /* Quando o mouse passar por cima do botão do pop-up, exibe o pop-up */
+        .popup-button:hover + .popup {
+        display: block;
+        }
+
+      /* Estilos para o índice lateral */
+      .toc {
+            position: fixed;
+            top: 30%;
+            left: 20px; /* Mover para o lado esquerdo */
+            transform: translateY(-50%);
+            background-color: #121212; /* Cor de fundo dark */
+            border: 1px solid #bb86fc; /* Cor da borda dark */
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000; /* Garante que o índice esteja acima de outros elementos */
+        }
+
+        .toc h3 {
+            color: #bb86fc; /* Cor do texto light */
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .toc li {
+            margin-bottom: 5px;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: #ddd; /* Cor do texto light */
+        }
+
+        .toc a:hover {
+            color: #fff; /* Cor do texto hover light */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title-with-icon">
+            <img src="https://img.icons8.com/ios-glyphs/30/EBEBEB/building--v1.png" alt="Ícone de Edifício">
+            <h1 id="main-title">Instituição de Condomínio</h1>
+        </div>
+
+          <!-- Novo botão para exibir o pop-up -->
+        <button class="popup-button" onclick="togglePopup()">
+            <img src="https://img.icons8.com/ios-filled/50/bb86fc/details-popup.png" alt="Menu">
+        </button>
+
+            <!-- Índice lateral -->
+            <div class="toc" id="toc">
+                <h3>Table of Contents</h3>
+                <ul>
+                    <li><a href="#main-title">Instituição de Condomínio</a></li>
+                    <li><a href="#certidao">Certidão Narrativa</a></li>
+                    <li><a href="#habite">Habite-se</a></li>
+                    <li><a href="#cadastro">Ficha de Cadastro</a></li>
+                </ul>
+            </div>
+
+        <form>
+            <label for="dataRequerimento">Data do Requerimento (Instituição e Retificação de Condomínio):</label>
+            <div class="tooltip-container">
+                <input type="date" id="dataRequerimento" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            
+            <label for="mat">Matrícula:</label>
+            <div class="tooltip-container">
+                <input type="text" id="mat" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="pav">Pavimento:</label>
+            <div class="tooltip-container">
+                <input type="text" value="Térreo / Superior" id="pav" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="vagas">Vagas:</label>
+            <div class="tooltip-container">
+                <input type="text" id="vagas" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="complemento">Complemento:</label>
+            <div class="tooltip-container">
+                <input type="text" value="QD. ; LT. " id="complemento" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="lote">Loteamento:</label>
+            <div class="tooltip-container">
+                <input type="text" id="lote" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="pav2">Pav/Garagem:</label>
+            <div class="tooltip-container">
+                <input type="text" value="Pav. Único (TÉRREO / SUPERIOR)" id="pav2" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="tipo">Tipo:</label>
+            <div class="tooltip-container">
+                <input type="text" value="unifamilar / multifamiliar" id="tipo" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="quadra">Quadra:</label>
+            <div class="tooltip-container">
+                <input type="text" id="quadra" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="emp">Empreendimento:</label>
+            <div class="tooltip-container">
+                <input type="text" value="Condomínio Urbano Simples sem denominação" id="emp" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <h2 id="certidao">Certidão Narrativa</h2>
+            <label for="dataCertidao">Data:</label>
+            <div class="tooltip-container">
+                <input type="date" id="dataCertidao" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="codigoCertidao">Código:</label>
+            <div class="tooltip-container">
+                <input type="text" id="codigoCertidao" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <h2 id="habite">Habite-se</h2>
+            <label for="retificado">Retificado?</label>
+            <input type="checkbox" id="retificado">
+
+            <label for="dataHabite">Data:</label>
+            <div class="tooltip-container">
+                <input type="date" id="dataHabite" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <label for="codigoHabite">Código:</label>
+            <div class="tooltip-container">
+                <input type="text" id="codigoHabite" class="copyable">
+                <span class="tooltip">Copiado</span>
+            </div>
+
+            <h2 id="cadastro">Ficha de Cadastro</h2>
+            <div id="fichas">
+                <div class="ficha">
+                    <label for="dataFicha1">Data da Ficha:</label>
+                    <div class="tooltip-container">
+                        <input type="date" id="dataFicha1" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <label for="areaTerreno1">Área do Terreno:</label>
+                    <div class="tooltip-container">
+                        <input type="text" id="areaTerreno1" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    
+                    <label for="areaConstruida1">Área Construída:</label>
+                    <div class="tooltip-container">
+                        <input type="text" id="areaConstruida1" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <button type="button" id="addFicha">Adicionar Ficha</button>
+        </form>
+    </div>
+
+    <!-- Novo pop-up -->
+    <div class="popup" id="myPopup">
+        <div class="popup-content">
+        📌Ordem dos Documentos
+        <ol>
+            <li>CAPA DO PROTOCOLO;</li>
+            <li>CAPA DA CERTIDÃO;</li>
+            <li>INSTITUIÇÃO DE CONDOMÍNIO;</li>
+            <li>MATRÍCULA;</li>
+            <li>HABITE-SE;</li>
+            <li>LICENÇA DE CONSTRUÇÃO;</li>
+            <li>CERTIDÃO NARRATIVA;</li>
+            <li>CROQUI;</li>
+            <li>PLANTA;</li>
+            <li>ART (OU EQUIVALENTE);</li>
+            <li>MEMORIAL DE CÁLCULO/DESCRITIVO/DISO OU DECLARAÇÃO;</li>
+            <li>CND;</li>
+            <li>FICHAS DE CADASTRO;</li>
+            <li>DOCUMENTOS DAS PARTES;</li>
+            <li>CUSTAS/TAXA;</li>
+            <li>CNIB;</li>
+            <li>DOCUMENTOS QUE IREMOS DEVOLVER.</li>
+        </ol>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addFichaButton = document.getElementById('addFicha');
+            const fichasContainer = document.getElementById('fichas');
+            let fichaCount = 1;
+
+            addFichaButton.addEventListener('click', () => {
+                fichaCount++;
+                const newFicha = document.createElement('div');
+                newFicha.classList.add('ficha');
+                newFicha.innerHTML = `
+                    <label for="dataFicha${fichaCount}">Data da Ficha:</label>
+                    <div class="tooltip-container">
+                        <input type="date" id="dataFicha${fichaCount}" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <label for="areaTerreno${fichaCount}">Área do Terreno:</label>
+                    <div class="tooltip-container">
+                        <input type="text" id="areaTerreno${fichaCount}" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <label for="areaConstruida${fichaCount}">Área Construída:</label>
+                    <div class="tooltip-container">
+                        <input type="text" id="areaConstruida${fichaCount}" class="copyable">
+                        <span class="tooltip">Copiado</span>
+                    </div>
+                    <div class="divider"></div>
+                `;
+                fichasContainer.appendChild(newFicha);
+                addCopyFunctionality(newFicha.querySelectorAll('input'));
+            });
+
+            function formatDateString(dateString) {
+                const [year, month, day] = dateString.split('-');
+                const monthNames = [
+                    'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+                    'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+                ];
+                return `${day} de ${monthNames[parseInt(month) - 1]} de ${year}`;
+            }
+
+            function showTooltip(input) {
+                const tooltip = input.nextElementSibling;
+                tooltip.classList.add('show-tooltip');
+                setTimeout(() => {
+                    tooltip.classList.remove('show-tooltip');
+                }, 2000);
+            }
+
+            function addCopyFunctionality(inputs) {
+                inputs.forEach(input => {
+                    input.addEventListener('click', () => {
+                        if (input.type === 'date') {
+                            const formattedDate = formatDateString(input.value);
+                            navigator.clipboard.writeText(formattedDate)
+                                .then(() => {
+                                    showTooltip(input);
+                                });
+                        } else {
+                            input.select();
+                            document.execCommand('copy');
+                            showTooltip(input);
+                        }
+                    });
+                });
+            }
+
+            document.querySelectorAll('.copyable').forEach(input => {
+                addCopyFunctionality([input]);
+            });
+        });
+
+        // Função para exibir/esconder o pop-up
+        function togglePopup() {
+        var popup = document.getElementById("myPopup");
+        popup.style.display = popup.style.display === "block" ? "none" : "block";
+        }
+
+                // Função para mostrar/ocultar o índice
+                function toggleIndex() {
+            var toc = document.getElementById('toc');
+            toc.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>
